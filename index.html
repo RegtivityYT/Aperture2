@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10131c"><title>Aperture — Web workspace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">A</div><div><strong>APERTURE</strong><small>WEB WORKSPACE</small></div></div>
+      <button class="side-link active" data-view="browser">▣ <span>Browser</span></button>
+      <button class="side-link" data-view="home">⌂ <span>Home</span></button>
+      <button class="side-link" data-view="tools">⌘ <span>Dev tools</span></button>
+      <div class="side-label">QUICK LINKS</div>
+      <button class="quick-link" data-url="https://github.com">◈ GitHub</button>
+      <button class="quick-link" data-url="https://codepen.io">◈ CodePen</button>
+      <button class="quick-link" data-url="https://developer.mozilla.org">◈ MDN</button>
+      <button class="quick-link" data-url="https://itch.io">◈ itch.io</button>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Local workspace</div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="crumb">APERTURE <span>/</span> <b id="crumb-current">BROWSER</b></div><div class="top-actions"><span class="pill">BETA BUILD</span><button id="new-tab" class="small-btn">＋ New tab</button></div></header>
+      <section id="browser-view" class="view active">
+        <div class="tab-strip" id="tab-strip"></div>
+        <div class="nav-bar">
+          <button id="back" class="nav-btn" title="Back">←</button><button id="forward" class="nav-btn" title="Forward">→</button><button id="reload" class="nav-btn" title="Reload">↻</button>
+          <form id="address-form" class="address-form"><span class="lock">⌕</span><input id="address" autocomplete="off" spellcheck="false" placeholder="Search or enter a website address"><button type="submit">Go</button></form>
+          <button id="bookmark" class="nav-btn" title="Bookmark">☆</button><button id="settings" class="nav-btn" title="Set proxy">⚙</button>
+        </div>
+        <div class="browser-status"><span id="status-text">Ready when you are</span><span id="page-host">APERTURE VIEWER</span></div><div id="isolation-warning" class="notice hidden"><span>ⓘ</span><div><strong>Isolated memory is unavailable</strong><p>Open Aperture from your Cloudflare Worker HTTPS URL in current Chrome or Edge. Do not use the direct GitHub Pages URL or an embedded preview. The Worker must serve this app with COOP and COEP headers.</p></div></div>
+        <div id="start-page" class="start-page">
+          <div class="hero-kicker">YOUR SPACE ON THE WEB</div><h1>Explore without<br><em>leaving Aperture.</em></h1><p>Search the web, open sites and keep your workspace in one place.</p>
+          <form id="hero-form" class="hero-search"><span>⌕</span><input id="hero-address" placeholder="Search Google or enter a URL"><button>Explore ↗</button></form>
+          <div class="shortcut-grid">
+            <button data-url="https://www.google.com" class="shortcut"><b>G</b><span>Google</span></button><button data-url="https://www.wikipedia.org" class="shortcut"><b>W</b><span>Wikipedia</span></button><button data-url="https://github.com" class="shortcut"><b>GH</b><span>GitHub</span></button><button data-url="https://www.youtube.com" class="shortcut"><b>▶</b><span>YouTube</span></button><button data-url="https://itch.io" class="shortcut"><b>i</b><span>itch.io</span></button><button data-url="https://developer.mozilla.org" class="shortcut"><b>MDN</b><span>MDN</span></button>
+          </div>
+          <div class="notice"><span>ⓘ</span><div><strong>How Aperture works</strong><p>Pages are fetched through your own Cloudflare Worker and shown in a protected viewer. Some websites block proxy viewing or need JavaScript, sign-ins or cookies, so they may not work exactly like a normal browser.</p></div></div>
+        </div>
+        <div id="loading" class="loading hidden"><div class="spinner"></div><strong>Opening page…</strong><span>Fetching and preparing the page for Aperture</span></div>
+        <div id="error-panel" class="error-panel hidden"><div class="error-icon">!</div><h2>Couldn't display this page</h2><p id="error-message">The website didn't return a page Aperture can display.</p><button id="retry" class="primary-btn">Try again</button></div>
+        <iframe id="page-frame" class="page-frame hidden" title="Aperture web viewer" sandbox="allow-scripts allow-forms" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </section>
+      <section id="home-view" class="view content-view"><div class="section-kicker">OVERVIEW</div><h1>Your workspace.</h1><p class="muted">A single place for the sites and tools you use while gaming and building things.</p><div class="home-cards"><article><span>01 / BROWSER</span><h2>Web viewer</h2><p>Browse supported pages inside Aperture.</p><button data-go="browser">Open browser →</button></article><article><span>02 / CREATION</span><h2>Developer tools</h2><p>Handy utilities for coding and testing.</p><button data-go="tools">Explore tools →</button></article><article><span>03 / SAVED</span><h2>Bookmarks</h2><p>Your saved destinations stay on this device.</p><button id="show-bookmarks">View bookmarks →</button></article></div></section>
+      <section id="tools-view" class="view content-view"><div class="section-kicker">CREATION SUITE</div><h1>Dev tools.</h1><p class="muted">Quick utilities for everyday web projects.</p><div class="tool-grid"><article class="tool-card"><span>FORMATTER</span><h2>JSON formatter</h2><textarea id="json-input" placeholder='Paste JSON here…'></textarea><button id="format-json">Format JSON</button><pre id="json-output">Your formatted JSON will appear here.</pre></article><article class="tool-card"><span>COLOUR</span><h2>Colour picker</h2><div class="colour-row"><input type="color" id="colour" value="#6d7cff"><code id="colour-value">#6D7CFF</code><button id="copy-colour">Copy</button></div><div id="colour-preview"></div></article><article class="tool-card"><span>TEXT</span><h2>Word & character count</h2><textarea id="count-input" placeholder="Type or paste text…"></textarea><div class="counts"><b id="words">0</b> words <b id="chars">0</b> characters</div></article><article class="tool-card"><span>ENCODER</span><h2>URL encoder</h2><textarea id="encode-input" placeholder="Text to encode or decode…"></textarea><div class="button-row"><button id="encode">Encode</button><button id="decode">Decode</button></div><pre id="encode-output"></pre></article></div></section>
+    </main>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.6/purify.min.js" referrerpolicy="strict-origin-when-cross-origin"></script>
+  <script src="app.js"></script>
+</body></html>
